@@ -23,7 +23,7 @@ class Sortie
 
 
     /**
-     * @ORM\Column (type="string", lenght=30)
+     * @ORM\Column (type="string", length=30)
      */
     private $nom;
 
@@ -48,7 +48,7 @@ class Sortie
     private $nbinscriptionsmax;
 
      /**
-      * @ORM\Column (type="string",; lenght="500", nullable=true)
+      * @ORM\Column (type="string", length=500, nullable=true)
       */
     private $descriptioninfos;
 
