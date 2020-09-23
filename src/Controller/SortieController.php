@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Sortie;
+use App\Form\SortieType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -42,35 +43,44 @@ class SortieController extends AbstractController
     /**
      * @Route("/add", name="add")
      */
-    public function add()
+    public function add(Request $request, EntityManagerInterface $em)
     {
         //créer la sortie , traiter + sauvergarder dans la bdd
+        $sortie = new Sortie();
+        $sortieForm = $this->createForm(SortieType::class,$sortie);
 
-        return $this->render('sortie/add.html.twig', [
-            'controller_name' => 'SortieController',
-        ]);
+        $sortieForm->handleRequest($request);
+       // dump($sortie);
+       if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
+
+                // VERIFIER COMMENT JE ADD LES METHODES DANS
+              //  $sortie->setIsPublished(true);
+               // $sortie->setDateCreated(new \DateTime());
+
+                $em->persist($sortie);
+                $em->flush();
+
+                $this->addFlash("success", "Votre sortie est bien sauvergardée!");
+                return $this->redirectToRoute("sortie_detail", ["id" => $sortie->getId()]);
+        }
+        // VERIFIER LE NOM DE CHEMIN SUR LEQUEL JE DOIS RENVOYER
+        return $this->render('main/sortie.html.twig', ["sortieForm"=>$sortieForm->createView()]);
     }
 
-  /*  /**
-     * @Route("/publish", name="publish")
-     */
-   /* public function publish()
-    {
-        //publier la sortie
-        return $this->render('sortie/publish.html.twig', [
-            'controller_name' => 'SortieController',
-        ]);
-    }
-*/
     /**
      * @Route("/delete", name="delete")
      */
-    public function delete()
+    public function delete($id,EntityManagerInterface $em)
     {
-        //supprimer la sortie
-        return $this->render('sortie/delete.html.twig', [
-            'controller_name' => 'SortieController',
-        ]);
+        $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
+        $sortie = $sortieRepo->find($id);
+
+        $em->remove($sortie);
+        $em->flush();
+        // VOIR SI CHEMIN EN HOME OU EN MAIN
+        $this->addFlash('success', "La sortie a été supprimmée!");
+        return $this->redirectToRoute('home');
+
     }
 
     /**

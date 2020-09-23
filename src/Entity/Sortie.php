@@ -269,4 +269,12 @@ class Sortie
      * @ORM\Column (type="integer")
      */
     private $etats_no_etat;
+
+    public function setDateCreated(\DateTime $param)
+    {
+    }
+
+    public function setIsPublished(bool $true)
+    {
+    }
 }
