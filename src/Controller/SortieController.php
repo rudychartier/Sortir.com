@@ -64,7 +64,7 @@ class SortieController extends AbstractController
                 return $this->redirectToRoute("sortie_detail", ["id" => $sortie->getId()]);
         }
         // VERIFIER LE NOM DE CHEMIN SUR LEQUEL JE DOIS RENVOYER
-        return $this->render('main/sortie.html.twig', ["sortieForm"=>$sortieForm->createView()]);
+        return $this->render('home/sortie.html.twig', ["sortieForm"=>$sortieForm->createView()]);
     }
 
     /**
