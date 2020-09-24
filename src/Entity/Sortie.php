@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SortieRepository;
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -21,9 +22,8 @@ class Sortie
     //no_sortie/INTEGER NOT NULL,
 
 
-
     /**
-     * @ORM\Column (type="string", length=30)
+     * @ORM\Column (type="string", length=30, name="nom de la sortie")
      */
     private $nom;
 
@@ -33,7 +33,7 @@ class Sortie
     private $datedebut;
 
     /**
-     * @ORM\Column (type="integer", nullable=true)
+     * @ORM\Column (type="integer", nullable=true, )
      */
     private $duree;
 
@@ -270,7 +270,7 @@ class Sortie
      */
     private $etats_no_etat;
 
-    public function setDateCreated(\DateTime $param)
+    public function setDateCreated(DateTime $param)
     {
     }
 

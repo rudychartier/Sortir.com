@@ -47,15 +47,12 @@ class SortieController extends AbstractController
     {
         //créer la sortie , traiter + sauvergarder dans la bdd
         $sortie = new Sortie();
+
         $sortieForm = $this->createForm(SortieType::class,$sortie);
 
         $sortieForm->handleRequest($request);
-       // dump($sortie);
+        // set = donnees enregistrées du user
        if ($sortieForm->isSubmitted() && $sortieForm->isValid()){
-
-                // VERIFIER COMMENT JE ADD LES METHODES DANS
-              //  $sortie->setIsPublished(true);
-               // $sortie->setDateCreated(new \DateTime());
 
                 $em->persist($sortie);
                 $em->flush();
@@ -63,8 +60,9 @@ class SortieController extends AbstractController
                 $this->addFlash("success", "Votre sortie est bien sauvergardée!");
                 return $this->redirectToRoute("sortie_detail", ["id" => $sortie->getId()]);
         }
+
         // VERIFIER LE NOM DE CHEMIN SUR LEQUEL JE DOIS RENVOYER
-        return $this->render('home/sortie.html.twig', ["sortieForm"=>$sortieForm->createView()]);
+        return $this->render('sortie/sortie.html.twig', ["sortieForm" => $sortieForm->createView()]);
     }
 
     /**
@@ -73,12 +71,12 @@ class SortieController extends AbstractController
     public function delete($id,EntityManagerInterface $em)
     {
         $sortieRepo = $this->getDoctrine()->getRepository(Sortie::class);
-        $sortie = $sortieRepo->find($id);
+        $sortie = $sortieRepo->findBy($id);
 
         $em->remove($sortie);
         $em->flush();
         // VOIR SI CHEMIN EN HOME OU EN MAIN
-        $this->addFlash('success', "La sortie a été supprimmée!");
+        $this->addFlash('success', "La sortie a été supprimée!");
         return $this->redirectToRoute('home');
 
     }
@@ -93,6 +91,5 @@ class SortieController extends AbstractController
             'controller_name' => 'SortieController',
         ]);
     }
-
 
 }

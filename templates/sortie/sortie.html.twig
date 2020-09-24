@@ -1,0 +1,11 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}Sortir.com | Home{% endblock %}
+
+{% block main %}
+    {{ form_start(sortieForm) }}
+    {{ form_widget(sortieForm) }}
+    <button type='submit' class="btn btn-primary">Enregistrer !</button>
+    <button type='cancel' class="btn btn-primary">Annuler !</button>
+    {{ form_end(sortieForm) }}
+{% endblock %}
